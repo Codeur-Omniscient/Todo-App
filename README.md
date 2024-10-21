@@ -30,6 +30,7 @@ pnpm install
 - Delete Task
 - Search Task
 - LocalStorage
+
 <!--
 
 ## Deploy
