@@ -1,4 +1,4 @@
-# Movie App
+# Todo App
 
 ![Home image](./screely-1729551571645.png)
 
