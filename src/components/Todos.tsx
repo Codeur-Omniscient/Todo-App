@@ -6,14 +6,12 @@ import { AnimatePresence } from "framer-motion";
 const Todos = () => {
   const { todos } = useContext(TodoContext);
   const sorteTodos = todos
-    .slice()
-    .sort((a, b) => Number(a.complete) - Number(b.complete));
+    ? todos.slice().sort((a, b) => Number(a.complete) - Number(b.complete))
+    : null;
   return (
     <ul className="space-y-3">
       <AnimatePresence>
-        {sorteTodos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} />
-        ))}
+        {sorteTodos?.map((todo) => <TodoItem key={todo.id} todo={todo} />)}
       </AnimatePresence>
     </ul>
   );

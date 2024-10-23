@@ -14,7 +14,7 @@ interface ContextProps {
 }
 
 type TodoContextObj = {
-  todos: Todo[];
+  todos: Todo[] | null;
   activeTodo: Todo | null;
   onAddTodo: (newTodo: Todo) => void;
   onDeleteTodo: (id: string) => void;
@@ -42,11 +42,17 @@ export const TodoContext = createContext<TodoContextObj>({
 });
 
 export const TodoContextProvider = ({ children }: ContextProps) => {
-  const [todos, setTodos] = useState<Todo[]>(function () {
+  const [todos, setTodos] = useState<Todo[] | null>(function () {
     const storedTodos = localStorage.getItem("todos");
     if (storedTodos) {
-      return JSON.parse(storedTodos);
+      try {
+        return JSON.parse(storedTodos);
+      } catch (e) {
+        console.error("Failed to parse todos from localStorage:", e);
+        return null;
+      }
     }
+    return null;
   });
   const [editTodo, setEditTodo] = useState<Todo | null>(null);
   const [search, setSearch] = useState("");
@@ -59,21 +65,34 @@ export const TodoContextProvider = ({ children }: ContextProps) => {
   );
 
   const handleAddTodo = (newTodo: Todo) => {
-    setTodos((todos) => [...todos, newTodo]);
+    setTodos((todos) => [...(todos as []), newTodo]);
     toast.success("Task added successfully");
   };
 
   const handleDeleteTodo = (id: string) => {
-    setTodos((todos) => todos.filter((todo) => todo.id !== id));
+    setTodos((todos) => {
+      if (todos) {
+        return todos.filter((todo) => todo.id !== id);
+      }
+      return todos; // Si todos est null, on le renvoie tel quel
+    });
     toast.success("Task deleted");
   };
 
+  // const handleDeleteTodo = (id: string) => {
+  //   setTodos((todos) => todos.filter((todo) => todo.id !== id));
+  //   toast.success("Task deleted");
+  // };
+
   const handleComplete = (id: string) => {
-    setTodos((todos) =>
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, complete: !todo.complete } : todo,
-      ),
-    );
+    setTodos((todos) => {
+      if (todos) {
+        return todos.map((todo) =>
+          todo.id === id ? { ...todo, complete: !todo.complete } : todo,
+        );
+      }
+      return todos;
+    });
   };
 
   const handleSearch = (searchValue: string) => {
@@ -91,13 +110,16 @@ export const TodoContextProvider = ({ children }: ContextProps) => {
   const handleSaveEdit = useCallback(
     (description: string) => {
       if (editTodo) {
-        setTodos((todos) =>
-          todos.map((todo) =>
-            todo.id === editTodo.id
-              ? { ...todo, description: description }
-              : todo,
-          ),
-        );
+        setTodos((todos) => {
+          if (todos) {
+            return todos.map((todo) =>
+              todo.id === editTodo.id
+                ? { ...todo, description: description }
+                : todo,
+            );
+          }
+          return todos;
+        });
         handleCloseEdit();
         toast.info("Task was updated successfully");
       }
@@ -105,9 +127,11 @@ export const TodoContextProvider = ({ children }: ContextProps) => {
     [editTodo],
   );
 
-  const filteredTodo = todos.filter((todo) =>
-    todo.description?.toLowerCase().includes(search.toLowerCase()),
-  );
+  const filteredTodo = todos?.length
+    ? todos.filter((todo) =>
+        todo.description?.toLowerCase().includes(search.toLowerCase()),
+      )
+    : null;
 
   const contextValue: TodoContextObj = useMemo(() => {
     return {
