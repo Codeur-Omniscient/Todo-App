@@ -1,15 +1,12 @@
-import { FormEvent, useContext } from "react";
+import { useContext } from "react";
 import { TodoContext } from "../context/TodoContext";
 import { Search } from "lucide-react";
 
 const SearchTodo = () => {
   const { onSearch } = useContext(TodoContext);
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-  };
   return (
-    <form className="flex items-center gap-4" onSubmit={handleSubmit}>
+    <div className="flex items-center gap-4">
       <input
         type="text"
         className="Input"
@@ -20,7 +17,7 @@ const SearchTodo = () => {
       <button className="" type="button">
         <Search className="size-6" />
       </button>
-    </form>
+    </div>
   );
 };
 

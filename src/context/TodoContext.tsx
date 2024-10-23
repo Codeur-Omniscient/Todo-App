@@ -80,11 +80,6 @@ export const TodoContextProvider = ({ children }: ContextProps) => {
     toast.success("Task deleted");
   };
 
-  // const handleDeleteTodo = (id: string) => {
-  //   setTodos((todos) => todos.filter((todo) => todo.id !== id));
-  //   toast.success("Task deleted");
-  // };
-
   const handleComplete = (id: string) => {
     setTodos((todos) => {
       if (todos) {
@@ -128,11 +123,13 @@ export const TodoContextProvider = ({ children }: ContextProps) => {
     [editTodo],
   );
 
-  const filteredTodo = todos?.length
-    ? todos.filter((todo) =>
-        todo.description?.toLowerCase().includes(search.toLowerCase()),
-      )
-    : null;
+  const filteredTodo = useMemo(() => {
+    return todos?.length
+      ? todos.filter((todo) =>
+          todo.description?.toLowerCase().includes(search.toLowerCase()),
+        )
+      : [];
+  }, [todos, search]);
 
   const contextValue: TodoContextObj = useMemo(() => {
     return {
