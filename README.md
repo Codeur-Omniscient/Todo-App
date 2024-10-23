@@ -32,12 +32,10 @@ pnpm install
 - LocalStorage
 - State Management
 
-<!--
-
 ## Deploy
 
-This site is deployed on [Netlify](Netlify.com). You can preview by clicked [Here](https://tutorify-elearning.netlify.app/).
+This site is deployed on [Netlify](Netlify.com). You can preview by clicked [Here](https://scrud-todo-app.netlify.app/).
 
 Don't forget to leave a star⭐ in the project if you like it😊
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/c19a72d1-8424-4353-9168-c92fe14a4f05/deploy-status)](https://app.netlify.com/sites/tutorify-elearning/deploys) -->
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9172a18a-fff2-4958-8a77-bc7e0ebf8e49/deploy-status)](https://app.netlify.com/sites/scrud-todo-app/deploys)
