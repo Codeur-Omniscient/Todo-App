@@ -1,4 +1,4 @@
-# Movie App
+# Todo App
 
 ![Home image](./screely-1729551571645.png)
 
@@ -30,6 +30,7 @@ pnpm install
 - Delete Task
 - Search Task
 - LocalStorage
+- State Management
 
 <!--
 
