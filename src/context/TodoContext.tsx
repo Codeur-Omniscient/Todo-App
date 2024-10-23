@@ -42,17 +42,18 @@ export const TodoContext = createContext<TodoContextObj>({
 });
 
 export const TodoContextProvider = ({ children }: ContextProps) => {
-  const [todos, setTodos] = useState<Todo[] | null>(function () {
+  const [todos, setTodos] = useState<Todo[] | []>(() => {
     const storedTodos = localStorage.getItem("todos");
     if (storedTodos) {
       try {
-        return JSON.parse(storedTodos);
+        const parsedTodos = JSON.parse(storedTodos);
+        return parsedTodos;
       } catch (e) {
         console.error("Failed to parse todos from localStorage:", e);
-        return null;
+        return [];
       }
     }
-    return null;
+    return [];
   });
   const [editTodo, setEditTodo] = useState<Todo | null>(null);
   const [search, setSearch] = useState("");

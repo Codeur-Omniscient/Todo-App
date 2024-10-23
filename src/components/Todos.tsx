@@ -7,7 +7,7 @@ const Todos = () => {
   const { todos } = useContext(TodoContext);
   const sorteTodos = todos
     ? todos.slice().sort((a, b) => Number(a.complete) - Number(b.complete))
-    : null;
+    : [];
   return (
     <ul className="space-y-3">
       <AnimatePresence>
